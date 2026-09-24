@@ -2,6 +2,8 @@
 
 ## Main idea
 
+a different changes than yours
+
 You are responsible for a base sitting at the border between your country and your enemy’s. Your main job is to stop people from the other side from crossing into yours—but that is only part of the work. Managing the people—from food to motivation—is what a good leader does, and it is what will ultimately determine whether you succeed or fail at your job, and whether your country succeeds or fails.
 
 ## Gameplay

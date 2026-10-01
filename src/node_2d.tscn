@@ -1,11 +1,10 @@
 [gd_scene format=3 uid="uid://do6j0k3n8ijl8"]
 
-[ext_resource type="Script" uid="uid://cj6ygvj0nnhd8" path="res://scripts/p1.gd" id="1_8co7y"]
+[ext_resource type="Script" uid="uid://bjxr8fsrbcmi5" path="res://scripts/root.gd" id="1_qusi5"]
 
 [node name="Node2D" type="Node2D" unique_id=414630546]
+script = ExtResource("1_qusi5")
 
-[node name="Label" type="Label" parent="." unique_id=125523440]
+[node name="Label" type="Label" parent="." unique_id=1961102841]
 offset_right = 40.0
 offset_bottom = 23.0
-text = "AGI IS HERE"
-script = ExtResource("1_8co7y")

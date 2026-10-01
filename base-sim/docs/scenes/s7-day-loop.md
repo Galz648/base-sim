@@ -9,18 +9,29 @@ Tie the sketches into one short loop: set the schedule, run the day, handle even
 day.tscn             world (S2) + clock and board (S3) + events (S4) + watch (S6) + HUD
 planning.tscn        schedule board only, shown before the day starts
 report.tscn          end-of-day report
+src/day_data.ts      class DayData extends Resource
 rosters/*.tres       DayData resources
 ```
 
 **Steps:**
-1. **`DayData`** (`Resource`): `@export var title: String`, `@export var people: Array[Person]`, `@export var events: Array[EventData]`, `@export var attempts: int` (how many infiltrations), `@export var length_hours: float`. Make a calm day and a hard day.
-2. **Planning screen:** shows the [S3](s3-clock-and-schedule.md) schedule board and each person's card. A "Start day" button loads `day.tscn`.
+1. **`DayData`** (a `Resource`):
+   ```ts
+   export class DayData extends Resource {
+     @exports title: string = '';
+     @exports people: Array<Person> = [];
+     @exports events: Array<EventData> = [];
+     @exports attempts: int = 3;           // how many infiltrations
+     @exports length_hours: float = 16.0;
+   }
+   ```
+   Make a calm day and a hard day in the Inspector.
+2. **Planning screen:** shows the [S3](s3-clock-and-schedule.md) schedule board and each person's card. A "Start day" button loads `day.tscn` (connect it in code).
 3. **Run the day:** the clock runs from 06:00 to 22:00 (or `length_hours`). S4 events and S6 attempts fire from the day's lists. S5 conversations are available as the player walks around.
-4. **Counters:** the `Base` autoload keeps `breaches`, `catches`, `events_handled`. Each is incremented by signals from S4 and S6.
-5. **End of day:** when the clock reaches the end, show `report.tscn` with the counters, the average of the people's three bars, and the biggest problem ("Yossi: fatigue 0.9").
-6. **Score:** one line of hand-made maths, for example `score = catches * 10 - breaches * 25 + round(avg_discipline * 20)`. Show the number counting up with a tween.
-7. **Save:** a `ConfigFile` stores the best score per day file, and the planning screen shows it.
-8. **Transitions:** a fade-to-black `ColorRect` between planning, day and report.
+4. **Counters:** add fields to `Base`: `breaches: int = 0`, `catches: int = 0`, `events_handled: int = 0`. Each is incremented by signals from S4 and S6 (connect them in code).
+5. **End of day:** when `Base.hour` passes the end, call `this.get_tree().change_scene_to_packed(preload('res://report.tscn'))`. The report shows the counters, the average of the people's three bars, and the biggest problem ("Yossi: fatigue 0.9").
+6. **Score:** one line of hand-made maths, for example `score = catches * 10 - breaches * 25 + roundi(avg_discipline * 20.0)`. Show the number counting up with a tween.
+7. **Save:** a `ConfigFile` stores the best score per day file, and the planning screen shows it (see [P8](../sandbox/p08-shared-state-and-data.md)).
+8. **Transitions:** a full-screen `ColorRect` fade (`modulate:a` tween) between planning, day and report.
 9. **Feel:** a morning "Day starts" banner, an evening bell, a calm ambient loop that turns tense when an external event is active, and an end-of-day freeze-frame before the report slides in.
 
 **Done when:** you can plan a day, play it through, get events and a border attempt, see your score and a short report, retry, and your best score survives a restart.

@@ -15,20 +15,41 @@ S2 (Node2D)
 │   ├── Tower (Marker2D)
 │   └── MotorPool (Marker2D)
 ├── NavigationRegion2D
-├── People (Node2D)               # person.tscn instances
+├── People (Node2D)               # person_body.tscn instances
 ├── Camera2D
 └── HUD (CanvasLayer) > card from S1
 ```
-`person_body.tscn`: `CharacterBody2D` > `Sprite2D`, `CollisionShape2D`, `NavigationAgent2D`, `Area2D` (for clicks). Script has `@export var person: Person`.
+`person_body.tscn`: `CharacterBody2D` > `Sprite2D`, `CollisionShape2D`, `NavigationAgent2D`, `Area2D` (for clicks).
 
 **Steps:**
 1. Paint the base with `TileMapLayer`s. In the TileSet, add a **Navigation Layer** to floor tiles and a **Physics Layer** to walls ([P7](../sandbox/p07-tilemap-camera-pickup-hud.md)). Walkable floor tiles get a navigation polygon.
-2. Place `Marker2D`s for each place. Name them exactly as the places in the schedule (`MessHall`, ...).
-3. In `person_body.gd`: `func go_to(place: String)` finds the marker (`get_tree().get_first_node_in_group("places")` and a lookup by name), then sets `nav_agent.target_position = marker.global_position`.
-4. In `_physics_process`, `var next := nav_agent.get_next_path_position()`, `velocity = global_position.direction_to(next) * 60.0`, `move_and_slide()`. Stop when `nav_agent.is_navigation_finished()`.
-5. A `Timer` every 5 seconds picks a random place for each person. (S3 replaces this with the real schedule.)
-6. Click a person (`Area2D.input_event`) to load them into the S1 card. Highlight them with a ring sprite.
-7. **Feel:** a little bob while walking (a tween on `Sprite2D.position.y`), dust particles at the feet, a smooth `Camera2D` that follows the selected person, a name tag above each head.
+2. Place `Marker2D`s for each place and add them all to a group named `places` (Node dock > Groups). Name them exactly as the places in the schedule (`MessHall`, ...).
+3. Write `src/person_body.ts`:
+   ```ts
+   export class PersonBody extends CharacterBody2D {
+     @exports person: Person | null = null;
+     @onready nav: NavigationAgent2D = this.get_node('NavigationAgent2D');
+
+     go_to(place: string): void {
+       for (const marker of this.get_tree().get_nodes_in_group('places')) {
+         if (marker.name === place) {
+           this.nav.target_position = gd.as(marker, Node2D)!.global_position;
+         }
+       }
+     }
+
+     _physics_process(delta: float): void {
+       if (this.nav.is_navigation_finished()) return;
+       const next: Vector2 = this.nav.get_next_path_position();
+       this.velocity = gd.ops.mul(this.global_position.direction_to(next), 60.0);
+       this.move_and_slide();
+     }
+   }
+   ```
+   (If a construct such as `marker.name === place` or `!` doesn't convert, read the error and the generated `.gd`, then adjust. The tstogd [caveats](https://nnn3d.github.io/typescript-to-gdscript/guide/caveats/) page lists what GDScript can't express.)
+4. A `Timer` every 5 seconds in the map script picks a random place for each person and calls `go_to`. (S3 replaces this with the real schedule.)
+5. Click a person (`Area2D.input_event`) to call `show_person` on the S1 card. Highlight them with a ring sprite.
+6. **Feel:** a little bob while walking (a tween on `Sprite2D.position.y`), dust particles at the feet, a smooth `Camera2D` that follows the selected person, a name tag above each head.
 
 **Done when:** five people wander between places without walking through walls, and clicking one shows their card.
 

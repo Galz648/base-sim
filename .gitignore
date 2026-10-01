@@ -1,0 +1,5 @@
+node_modules/
+src/_typings/
+tstogd_modules/
+.godot/
+.DS_Store

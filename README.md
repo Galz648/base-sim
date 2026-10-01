@@ -16,7 +16,7 @@ You walk around the base, talk to people, and personally interact with the facil
 
 **Top down**
 
-Like *The Escapists*, a prison manager, or *Papers, Please*: you get notified when a problem, event, or surprise comes up. Each real-time minute maps to a certain amount of in-game time.
+Like *The Escapists*, a prison manager, or *Papers, Please*, dispach, this is the police: you get notified when a problem, event, or surprise comes up. Each real-time minute maps to a certain amount of in-game time.
 
 ### The people
 

@@ -52,6 +52,7 @@ A major focus of the game is **interactivity** and the **player’s impact** on 
 
 ### Internal
 
+- death
 - Car breakdown  
 - Car checkup  
 - On the fire  

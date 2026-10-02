@@ -63,10 +63,27 @@ async function loadDirs(folder: vscode.Uri): Promise<TstogdDirs> {
   }
 }
 
+/** Last .tscn the user focused. Clicking a script must not snap the tree back to the setting. */
+let lastScene: vscode.Uri | undefined;
+
+function sceneUriOf(uri: vscode.Uri | undefined): vscode.Uri | undefined {
+  return uri?.path.endsWith(".tscn") ? uri : undefined;
+}
+
 function sceneFile(): { folder: vscode.WorkspaceFolder; relative: string; uri: vscode.Uri } | undefined {
   const folder = vscode.workspace.workspaceFolders?.[0];
+  if (!folder) {
+    return undefined;
+  }
+  const focused = sceneUriOf(vscode.window.activeTextEditor?.document.uri);
+  if (focused) {
+    lastScene = focused;
+  }
+  if (lastScene) {
+    return { folder, relative: vscode.workspace.asRelativePath(lastScene, false), uri: lastScene };
+  }
   const relative = vscode.workspace.getConfiguration("sceneTree").get<string>("scenePath");
-  if (!folder || !relative) {
+  if (!relative) {
     return undefined;
   }
   return { folder, relative, uri: vscode.Uri.joinPath(folder.uri, relative) };
@@ -438,6 +455,11 @@ export function activate(context: vscode.ExtensionContext): void {
     }),
     vscode.workspace.onDidChangeConfiguration((event) => {
       if (event.affectsConfiguration("sceneTree.scenePath")) {
+        void loadScene(provider);
+      }
+    }),
+    vscode.window.onDidChangeActiveTextEditor((editor) => {
+      if (sceneUriOf(editor?.document.uri)) {
         void loadScene(provider);
       }
     }),

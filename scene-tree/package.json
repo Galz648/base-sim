@@ -2,13 +2,13 @@
   "name": "scene-tree",
   "displayName": "Scene Tree",
   "description": "Scene tree that opens the TypeScript file tstogd compiled for each .gd script.",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "publisher": "local",
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": ["Other"],
-  "activationEvents": ["workspaceContains:tstogd.json", "onView:sceneTree"],
+  "activationEvents": ["onStartupFinished", "onView:sceneTree"],
   "main": "./out/extension.js",
   "contributes": {
     "views": {
@@ -16,11 +16,16 @@
         {
           "id": "sceneTree",
           "name": "Scene Tree",
-          "visibility": "visible",
-          "when": "workspaceContains:tstogd.json"
+          "visibility": "visible"
         }
       ]
     },
+    "viewsWelcome": [
+      {
+        "view": "sceneTree",
+        "contents": "No scene loaded. Open the base-sim folder, or set `sceneTree.scenePath` to a `.tscn` file."
+      }
+    ],
     "commands": [
       {
         "command": "sceneTree.refresh",

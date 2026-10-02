@@ -59,6 +59,6 @@ one_shot = true
 [node name="Status" type="Label" parent="."]
 offset_left = 24.0
 offset_top = 24.0
-offset_right = 400.0
-offset_bottom = 48.0
+offset_right = 900.0
+offset_bottom = 72.0
 text = "Border watch — high fatigue = slower notice"

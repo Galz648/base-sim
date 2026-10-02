@@ -15,15 +15,15 @@ script = ExtResource("1_s5")
 layout_mode = 1
 offset_left = 24.0
 offset_top = 24.0
-offset_right = 120.0
-offset_bottom = 56.0
+offset_right = 160.0
+offset_bottom = 80.0
 text = "Talk"
 
 [node name="Line" type="RichTextLabel" parent="."]
 layout_mode = 1
 offset_left = 24.0
-offset_top = 72.0
-offset_right = 600.0
-offset_bottom = 120.0
+offset_top = 96.0
+offset_right = 700.0
+offset_bottom = 180.0
 bbcode_enabled = true
 text = "..."

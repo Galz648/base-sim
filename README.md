@@ -16,6 +16,8 @@ You walk around the base, talk to people, and personally interact with the facil
 
 **Top down**
 
+This game is mainly based on "This is the Police", a text based game where you are a police officer and you have to manage your police force and the city you are in. text based decision making game.
+
 Like *The Escapists*, a prison manager, or *Papers, Please*, dispach, this is the police: you get notified when a problem, event, or surprise comes up. Each real-time minute maps to a certain amount of in-game time.
 
 ### The people

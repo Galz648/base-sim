@@ -2,6 +2,8 @@
 
 Step 1 of the plan. Small throwaway scenes, one idea each. No game. Each scene has one of each node: one button, one label, one wall. Build it in the `sandbox/` project and move on when you can rebuild it from memory. All scripts are TypeScript compiled by tstogd. The [cheat sheet](tstogd-cheatsheet.md) shows how GDScript constructs look in it.
 
+Each example gets a folder: `src/scenes/p01-editor-tour/` and `src/scripts/p01-editor-tour/`. `src/scenes/main.tscn` stays the run scene. Instance the example under Main when you want to play it. P1 is set up that way. The later pages still use the old flat paths until this feels right.
+
 Project settings to set once, in Project > Project Settings:
 - Display > Window > Stretch > Mode: `canvas_items`, Aspect: `keep`.
 - Rendering > Textures > Canvas Textures > Default Texture Filter: `Nearest` (for pixel art).

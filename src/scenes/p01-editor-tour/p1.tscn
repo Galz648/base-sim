@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://b7p1editortour"]
+
+[ext_resource type="Script" path="res://scripts/p01-editor-tour/p1.gd" id="1_p1"]
+
+[node name="P1" type="Node2D"]
+script = ExtResource("1_p1")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "hello"

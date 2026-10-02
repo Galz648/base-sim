@@ -1,5 +1,6 @@
 node_modules/
-src/_typings/
+**/_typings/**
+!**/.gdignore
 tstogd_modules/
 .godot/
 .DS_Store

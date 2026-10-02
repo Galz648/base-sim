@@ -1,30 +1,29 @@
 # P5: UI playground
 
-**Build:** a settings-style panel. This step is mostly editor work and needs almost no script.
-1. Root `Control` with Layout set to Full Rect. Child `MarginContainer` (set the four `theme_override_constants/margin_*`), then `VBoxContainer`.
-2. Inside: a `GridContainer` (`columns = 2`) with `Label` + `HSlider` rows (three of them), then an `HBoxContainer` with two `Button`s.
-3. Select a `Control`, open the Layout menu, and try anchor presets. Resize the window and watch what moves.
-4. Set `size_flags_horizontal` to `Expand + Fill` on the sliders.
-5. Create a `Theme` resource (FileSystem > New Resource > Theme), open it and set a font size and a `Button` stylebox. Assign it to the root's `theme` property.
-6. Small script to make the labels live. In `src/p5.ts`:
+**Build:** one slider and one label that follow the window. Mostly editor work.
+1. Root `Control` with Layout set to Full Rect. One child `VBoxContainer`.
+2. Inside the box: one `Label` and one `HSlider`.
+3. Select the root `Control`, open the Layout menu, and try one anchor preset (Full Rect). Resize the window and watch the box move with it.
+4. Set `size_flags_horizontal` to `Expand + Fill` on the slider.
+5. One script so the label follows the slider. In `src/scripts/p5.ts`:
    ```ts
    export class P5 extends Control {
-     @onready volume: HSlider = this.get_node('MarginContainer/VBoxContainer/GridContainer/VolumeSlider');
-     @onready volume_label: Label = this.get_node('MarginContainer/VBoxContainer/GridContainer/VolumeLabel');
+     @onready slider: HSlider = this.get_node('VBoxContainer/HSlider');
+     @onready label: Label = this.get_node('VBoxContainer/Label');
 
      _ready(): void {
-       this.volume.value_changed.connect(this.on_volume);
+       this.slider.value_changed.connect(this.on_slider);
      }
 
-     on_volume(v: float): void {
-       this.volume_label.text = `Volume: ${v}`;
+     on_slider(v: float): void {
+       this.label.text = `Volume: ${v}`;
      }
    }
    ```
    (Rename the nodes to match yours. Use the editor's "Copy Node Path" if a path is long.)
 
-**Learn:** anchors, containers, size flags, `Theme`, stretch settings, node paths in `get_node`.
-**Done when:** the panel looks correct at three window sizes with no manual positioning.
+**Learn:** one anchor preset, one container, size flags, node paths in `get_node`.
+**Done when:** the label and slider stay in the box when you resize the window.
 
 ---
 Previous: [P4](p04-signals.md) | [Index](README.md) | Next: [P6: Move a character](p06-move-a-character.md)

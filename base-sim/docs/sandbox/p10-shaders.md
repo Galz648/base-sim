@@ -1,10 +1,10 @@
 # P10: Shaders (standalone)
 
-A page on its own. Not needed for the sketches, which use plain colours and tweens. Do it when you want to, then optionally use it for a day-night tint or a searchlight glow in the sketches.
+A page on its own. Not needed for the sketches. Do it when you want a color that a slider can drive.
 
-Godot's shader language looks like GLSL. A `canvas_item` shader runs once per pixel of a 2D node. You only write `fragment()`. Built-ins you will use: `UV` (0–1 position across the node), `COLOR` (the output pixel), `TEXTURE` (the node's texture), `TIME` (seconds).
+Godot's shader language looks like GLSL. A `canvas_item` shader runs once per pixel of a 2D node. You only write `fragment()`. Built-ins you will use: `UV` (0–1 position across the node) and `COLOR` (the output pixel).
 
-Each step is one scene: a `ColorRect` (or `Sprite2D`) with a `ShaderMaterial` (Inspector > Material > New ShaderMaterial > Shader > New Shader), and the shader text below. Keep every step as a separate file so you can compare them.
+One scene: a `ColorRect` with a `ShaderMaterial` (Inspector > Material > New ShaderMaterial > Shader > New Shader). One `HSlider` next to it.
 
 **Step 1: Hello shader.**
 ```
@@ -15,7 +15,7 @@ void fragment() {
 ```
 You should see a gradient across the rect. Change the numbers and watch it update live.
 
-**Step 2: A uniform.**
+**Step 2: A uniform, driven by the slider.**
 ```
 shader_type canvas_item;
 uniform float heat : hint_range(0.0, 1.0) = 0.0;
@@ -23,48 +23,27 @@ void fragment() {
     COLOR = mix(vec4(0.2, 0.4, 1.0, 1.0), vec4(1.0, 0.3, 0.1, 1.0), heat);
 }
 ```
-- The uniform shows up in the Inspector under Shader Parameters. Drag it.
-- From code: `rect.material.set_shader_parameter("heat", v)`, driven by an `HSlider`.
+The uniform shows up in the Inspector under Shader Parameters. Drag it. Then drive it from the slider:
 
-**Step 3: Texture and alpha.** On a `Sprite2D` with the editor icon:
-```
-shader_type canvas_item;
-uniform float heat : hint_range(0.0, 1.0) = 0.0;
-void fragment() {
-    vec4 tex = texture(TEXTURE, UV);
-    COLOR = vec4(mix(tex.rgb, vec3(1.0, 0.3, 0.1), heat), tex.a);
+```ts
+export class P10 extends Control {
+  @onready slider: HSlider = this.get_node('HSlider');
+  @onready rect: ColorRect = this.get_node('ColorRect');
+
+  _ready(): void {
+    this.slider.value_changed.connect(this.on_slider);
+  }
+
+  on_slider(v: float): void {
+    this.rect.material.set_shader_parameter('heat', v);
+  }
 }
 ```
-Keep `tex.a` so transparent pixels stay transparent.
 
-**Step 4: Animate with TIME.**
-```
-shader_type canvas_item;
-uniform float heat : hint_range(0.0, 1.0) = 0.0;
-void fragment() {
-    vec2 uv = UV;
-    uv.x += sin(UV.y * 20.0 + TIME * 3.0) * 0.01 * heat;
-    COLOR = texture(TEXTURE, uv);
-}
-```
-Hotter means more wobble. Change the frequency (20.0), speed (3.0) and amplitude (0.01).
+Set the slider's max to `1.0` so `v` matches the uniform range.
 
-**Step 5: A liquid level.** On a `ColorRect`:
-```
-shader_type canvas_item;
-uniform float level : hint_range(0.0, 1.0) = 0.5;
-uniform float heat : hint_range(0.0, 1.0) = 0.0;
-void fragment() {
-    float surface = 1.0 - level + sin(UV.x * 12.0 + TIME * 2.0) * 0.01;
-    float inside = step(surface, UV.y);
-    vec4 liquid = mix(vec4(0.2, 0.4, 1.0, 1.0), vec4(1.0, 0.3, 0.1, 1.0), heat);
-    COLOR = vec4(liquid.rgb, inside);
-}
-```
-`step(a, b)` is 0 below `a` and 1 above. The top part becomes transparent, and the surface wobbles.
-
-**Learn:** `ShaderMaterial`, `fragment()`, `UV`, `COLOR`, `TEXTURE`, `TIME`, uniforms, `set_shader_parameter`, `mix`, `step`, `sin`.
-**Done when:** a slider changes the colour, wobble and fill level of a rect, using only the uniforms in the Inspector and one `set_shader_parameter` call per slider.
+**Learn:** `ShaderMaterial`, `fragment()`, `UV`, `COLOR`, one uniform, `set_shader_parameter`, `mix`.
+**Done when:** the slider changes the rect from blue to orange.
 
 ---
 Previous: [P9: Juice](p09-juice.md) | [Index](README.md) | Next: [Game sketches](../scenes/README.md)

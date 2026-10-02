@@ -1,12 +1,12 @@
 # Godot components (P0–P10)
 
-Step 1 of the plan. Small throwaway scenes, one Godot concept each. No game. Build each one in the `sandbox/` project and move on when you can rebuild it from memory. All scripts are TypeScript compiled by tstogd. The [cheat sheet](tstogd-cheatsheet.md) shows how GDScript constructs look in it.
+Step 1 of the plan. Small throwaway scenes, one idea each. No game. Each scene has one of each node: one button, one label, one wall. Build it in the `sandbox/` project and move on when you can rebuild it from memory. All scripts are TypeScript compiled by tstogd. The [cheat sheet](tstogd-cheatsheet.md) shows how GDScript constructs look in it.
 
 Project settings to set once, in Project > Project Settings:
 - Display > Window > Stretch > Mode: `canvas_items`, Aspect: `keep`.
 - Rendering > Textures > Canvas Textures > Default Texture Filter: `Nearest` (for pixel art).
 
-**Exit check:** you can build a scene with a slider, a live `Line2D` chart and a walking character, with shared state in an autoload, all with TypeScript scripts you wrote and converted yourself.
+**Exit check:** you can tween one bar from a button, walk a character into one wall, and keep one number in an autoload across a scene change. Scripts are TypeScript you wrote and converted yourself.
 
 0. [P0: tstogd setup](p00-tstogd-setup.md)
 1. [P1: Editor tour](p01-editor-tour.md)

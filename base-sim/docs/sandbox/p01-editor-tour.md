@@ -1,9 +1,9 @@
 # P1: Editor tour
 
 **Build:** `Node2D` (root) with one child `Label`, and a script that moves the label.
-1. Create a `Node2D` root and a child `Label`. Set its text in the Inspector. Save as `p1.tscn`.
+1. Create a `Node2D` root and a child `Label`. Set its text in the Inspector. Save as `src/scenes/p1.tscn`.
 2. Set it as the main scene (Project Settings > Application > Run > Main Scene) and press F5.
-3. In `src/p1.ts`:
+3. In `src/scripts/p1.ts`:
    ```ts
    export class P1 extends Node2D {
      @onready label: Label = this.get_node('Label');

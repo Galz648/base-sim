@@ -1,40 +1,41 @@
-# S7: A day at the base
+# S7: A day
 
-Tie the sketches into one short loop: set the schedule, run the day, handle events, and see a report at the end. There is still no simulation. It is the sketches working together.
+The clock runs. When the hour passes 22, the day is over.
 
-**Components:** `PackedScene` (instancing S2–S6 as sub-scenes), signals, `Timer`, `Control`, `Tween`, `ConfigFile`, `change_scene_to_packed()`.
-
-**Files:**
+**Scene tree** (`src/scenes/s7.tscn`):
 ```
-day.tscn             world (S2) + clock and board (S3) + events (S4) + watch (S6) + HUD
-planning.tscn        schedule board only, shown before the day starts
-report.tscn          end-of-day report
-src/day_data.ts      class DayData extends Resource
-rosters/*.tres       DayData resources
+S7 (Control, script: day)
+├── ClockLabel (Label)
+└── EndLabel (Label)
 ```
 
 **Steps:**
-1. **`DayData`** (a `Resource`):
+1. Set `Base.person` to the person from S1.
+2. Write `src/scripts/day.ts`:
    ```ts
-   export class DayData extends Resource {
-     @exports title: string = '';
-     @exports people: Array<Person> = [];
-     @exports events: Array<EventData> = [];
-     @exports attempts: int = 3;           // how many infiltrations
-     @exports length_hours: float = 16.0;
+   export class Day extends Control {
+     @onready clock: Label = this.get_node('ClockLabel');
+     @onready end_label: Label = this.get_node('EndLabel');
+
+     ended: bool = false;
+
+     _ready(): void {
+       Base.hour = 6.0;
+       Base.hour_changed.connect(this.on_hour);
+     }
+
+     on_hour(hour: float): void {
+       if (this.ended) return;
+       this.clock.text = `${floori(hour)}`;
+       if (hour < 22.0) return;
+       this.ended = true;
+       const fatigue: float = Base.person === null ? 0.0 : Base.person.fatigue;
+       this.end_label.text = `Day over. Fatigue ${fatigue}`;
+     }
    }
    ```
-   Make a calm day and a hard day in the Inspector.
-2. **Planning screen:** shows the [S3](s3-clock-and-schedule.md) schedule board and each person's card. A "Start day" button loads `day.tscn` (connect it in code).
-3. **Run the day:** the clock runs from 06:00 to 22:00 (or `length_hours`). S4 events and S6 attempts fire from the day's lists. S5 conversations are available as the player walks around.
-4. **Counters:** add fields to `Base`: `breaches: int = 0`, `catches: int = 0`, `events_handled: int = 0`. Each is incremented by signals from S4 and S6 (connect them in code).
-5. **End of day:** when `Base.hour` passes the end, call `this.get_tree().change_scene_to_packed(preload('res://report.tscn'))`. The report shows the counters, the average of the people's three bars, and the biggest problem ("Yossi: fatigue 0.9").
-6. **Score:** one line of hand-made maths, for example `score = catches * 10 - breaches * 25 + roundi(avg_discipline * 20.0)`. Show the number counting up with a tween.
-7. **Save:** a `ConfigFile` stores the best score per day file, and the planning screen shows it (see [P8](../sandbox/p08-shared-state-and-data.md)).
-8. **Transitions:** a full-screen `ColorRect` fade (`modulate:a` tween) between planning, day and report.
-9. **Feel:** a morning "Day starts" banner, an evening bell, a calm ambient loop that turns tense when an external event is active, and an end-of-day freeze-frame before the report slides in.
 
-**Done when:** you can plan a day, play it through, get events and a border attempt, see your score and a short report, retry, and your best score survives a restart.
+**Done when:** the label counts up from 6 and, at 22, shows fatigue and stops.
 
 ---
 Previous: [S6](s6-border-watch.md) | [Index](README.md)

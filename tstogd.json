@@ -1,5 +1,5 @@
 {
-  "tsDir": "src",
+  "tsDir": "src/scripts",
   "gdDir": "scripts",
   "typingsDir": "src/_typings",
   "tsconfig": "tsconfig.json",

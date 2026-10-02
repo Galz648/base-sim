@@ -5,7 +5,7 @@ How common GDScript constructs look when you write them in TypeScript for tstogd
 ## A script, side by side
 
 ```ts
-// src/player.ts
+// src/scripts/player.ts
 export class Player extends CharacterBody2D {
   health_changed = gd.signal<[health: int]>();
 
@@ -75,7 +75,7 @@ func take_damage(amount: int):
 | Typed array | `Array[int]` | `Array<int>` |
 | Add to array | `a.append(x)` | `a.append(x)` (Godot's name, not `push`) |
 | Random | `randf_range(0, 1)` | `randf_range(0.0, 1.0)` |
-| Scene preload | `preload("res://ball.tscn")` | `preload('res://ball.tscn')` (typed from your project) |
+| Scene preload | `preload("res://src/scenes/ball.tscn")` | `preload('res://src/scenes/ball.tscn')` (typed from your project) |
 | Instance | `scene.instantiate()` | `scene.instantiate()` |
 | Change scene | `get_tree().change_scene_to_file(p)` | `this.get_tree().change_scene_to_file(p);` |
 | Group | `add_to_group("balls")` | `this.add_to_group('balls');` |
@@ -83,7 +83,7 @@ func take_damage(amount: int):
 ## Resources (data files)
 
 ```ts
-// src/person.ts
+// src/scripts/person.ts
 export class Person extends Resource {
   @exports display_name: string = '';
   @export_range(0, 1) hunger: float = 0.2;
@@ -97,7 +97,7 @@ Convert it, then in Godot: FileSystem > right-click > New Resource > `Person`, a
 ## Autoloads (global singletons)
 
 ```ts
-// src/game_state.ts
+// src/scripts/game_state.ts
 export class GameState extends Node {
   coins: int = 0;
   coins_changed = gd.signal<[value: int]>();

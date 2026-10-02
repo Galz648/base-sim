@@ -32,19 +32,19 @@ docs/
 | New to Godot | [Components index](docs/sandbox/README.md), then P0 |
 | Unsure how to write something in TypeScript | [Cheat sheet](docs/sandbox/tstogd-cheatsheet.md) |
 | Done with the components | [Game sketches index](docs/scenes/README.md), then S1 |
-| Wondering how the game works with no sim | [Rules without a simulation](docs/scenes/README.md#rules-without-a-simulation) |
+| Wondering how the game works with no sim | [One person, one clock](docs/scenes/README.md#one-person-one-clock) |
 | Lost | Come back to this page |
 
 Each page ends with Previous / Index / Next links.
 
 ## The game idea, kept
 
-- **The people.** A fixed roster, each with hunger, fatigue, discipline and hidden traits (S1).
-- **The base.** A top-down base where people walk to places on a schedule (S2, S3).
-- **Events.** Car breakdowns, high winds, cold showers, infiltration attempts: pop-ups that need a decision (S4).
-- **Talking.** Walk up to someone, talk, and learn who they are (S5).
-- **The border.** Staff the watch, and tired guards miss things (S6).
-- **A day.** Schedule it, survive it, see how the base fared (S7).
+- **One person.** A name and one number, fatigue (S1).
+- **The base.** That person walks to one place (S2). A clock and one schedule slot (S3).
+- **One event.** A card, one choice, fatigue changes (S4).
+- **One line.** A button types out a sentence (S5).
+- **The border.** One sweeping light, one walker. High fatigue means a slower notice (S6).
+- **A day.** The clock runs to 22, then a line shows fatigue (S7).
 
 The source README also describes a first-person view. That is an optional 3D detour at the end of the sketches.
 

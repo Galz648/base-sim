@@ -5,19 +5,22 @@ Scripts in this plan are TypeScript. [tstogd](https://github.com/nnn3d/typescrip
 ## How the pieces fit
 
 ```
-sandbox/                  your Godot project
+sandbox/                      your Godot project
 ├── project.godot
-├── tstogd.json           converter config (created by `tstogd init`)
-├── tsconfig.json         TypeScript config (created by `tstogd init`)
+├── tstogd.json               converter config (created by `tstogd init`)
+├── tsconfig.json
 ├── package.json
-├── src/                  YOU WRITE TypeScript here
-│   └── ball.ts
-├── scripts/              GENERATED .gd files (do not edit)
+├── src/
+│   ├── scenes/               .tscn files
+│   │   └── ball.tscn
+│   └── scripts/              TypeScript you write
+│       └── ball.ts
+├── scripts/                  GENERATED .gd files (do not edit)
 │   └── ball.gd
-└── node_modules/typescript-to-gdscript/   the converter and Godot typings
+└── node_modules/typescript-to-gdscript/
 ```
 
-The exact input and output folders come from `tstogd.json` (`tsDir` and `gdDir`). Open that file after `init` and read it. The rule: edit the `.ts`, never the `.gd`. Godot attaches the generated `.gd` to nodes.
+`tstogd.json` points `tsDir` at `src/scripts` and `gdDir` at `scripts`. Edit the `.ts`, never the `.gd`. Godot attaches the generated `.gd` to nodes. Scenes live in `src/scenes`.
 
 ## Steps
 
@@ -28,7 +31,7 @@ The exact input and output folders come from `tstogd.json` (`tsDir` and `gdDir`)
    npx tstogd init
    ```
    You need Node.js 22+.
-3. **Write a script.** Create `src/hello.ts`:
+3. **Write a script.** Create `src/scripts/hello.ts`:
    ```ts
    export class Hello extends Node2D {
      _ready(): void {
@@ -52,7 +55,7 @@ The exact input and output folders come from `tstogd.json` (`tsDir` and `gdDir`)
 - Open the folder that holds `tsconfig.json` (here, `sandbox/`) as the workspace root.
 - Run "TypeScript: Select TypeScript Version" and pick **Use Workspace Version**. The converter's editor plugin only loads with the workspace TypeScript.
 - Run "TypeScript: Restart TS Server" after installing or changing config.
-- Keep your scripts inside the `include` folders of `tsconfig.json` (by default `src/`). A `.ts` file elsewhere gets no Godot types, and you see errors like `Cannot find name 'CharacterBody2D'`.
+- Keep your scripts in `src/scripts/`. A `.ts` file elsewhere gets no Godot types, and you see errors like `Cannot find name 'CharacterBody2D'`.
 - To check which config covers a file, run "TypeScript: Go to Project Configuration".
 
 ## Rules to remember

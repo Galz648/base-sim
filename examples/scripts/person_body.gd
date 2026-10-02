@@ -14,5 +14,5 @@ func _physics_process(_delta: float) -> void:
 	if self.global_position.distance_to(self.target) < 4.0:
 		self.moving = false
 		return
-	self.velocity = Vector2(100, 100)
+	self.velocity = (self.global_position.direction_to(self.target) * 60.0)
 	self.move_and_slide()

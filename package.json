@@ -6,6 +6,8 @@
     "postinstall": "mkdir -p node_modules && touch node_modules/.gdignore",
     "convert": "tstogd convert",
     "watch": "tstogd watch",
+    "convert:examples": "cd examples && tstogd convert",
+    "watch:examples": "cd examples && tstogd watch",
     "scene-tree": "npm run compile --prefix scene-tree"
   },
   "devDependencies": {

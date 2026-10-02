@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bp4root000001"]
+
+[ext_resource type="Script" path="res://scripts/p04-signals/p4.gd" id="1_p4"]
+[ext_resource type="Script" path="res://scripts/p04-signals/ping.gd" id="2_ping"]
+
+[node name="P4" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_p4")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 140.0
+offset_bottom = 56.0
+text = "Ping"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+offset_left = 24.0
+offset_top = 72.0
+offset_right = 220.0
+offset_bottom = 96.0
+text = "..."
+
+[node name="Ping" type="Node" parent="."]
+script = ExtResource("2_ping")

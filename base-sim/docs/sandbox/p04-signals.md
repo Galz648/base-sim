@@ -4,7 +4,7 @@
 
 **Important:** connect signals **in code**, not in the editor's Signals tab. The editor adds a handler stub to the `.gd`, and tstogd deletes it on the next conversion, so the connection would break. Code connections survive.
 
-1. Child script, `src/scripts/ping.ts`:
+1. Child script, `src/scripts/p04-signals/ping.ts`:
    ```ts
    export class Ping extends Node {
      pinged = gd.signal<[]>();
@@ -14,8 +14,8 @@
      }
    }
    ```
-   Attach the generated `ping.gd` to a child node named `Ping`.
-2. In `src/scripts/p4.ts`:
+   Attach the generated `scripts/p04-signals/ping.gd` to a child node named `Ping` in `src/scenes/p04-signals/p4.tscn`.
+2. In `src/scripts/p04-signals/p4.ts`:
    ```ts
    import { Ping } from './ping';
 

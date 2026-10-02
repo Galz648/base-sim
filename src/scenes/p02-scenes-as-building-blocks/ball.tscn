@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bp2ball000001"]
+
+[ext_resource type="Script" path="res://scripts/p02-scenes-as-building-blocks/ball.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bf81hqpv52ywl" path="res://assets/icon.svg" id="2_icon"]
+
+[node name="Ball" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_icon")

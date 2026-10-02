@@ -1,7 +1,7 @@
 # P2: Scenes as building blocks
 
-**Build:** `src/scenes/ball.tscn` (`Node2D` > `Sprite2D`) and `src/scenes/main.tscn` that instances it once in the editor and once from code.
-1. Make `src/scenes/ball.tscn` with a `Sprite2D` using the editor icon as texture. Write `src/scripts/ball.ts` and attach the generated `ball.gd` to the root:
+**Build:** `src/scenes/p02-scenes-as-building-blocks/ball.tscn` (`Node2D` > `Sprite2D`) and `p2.tscn` in that same folder, which instances the ball once in the editor and once from code. Hook `p2.tscn` under `src/scenes/main.tscn` to run it. Global `main.ts` stays empty.
+1. Make `ball.tscn` with a `Sprite2D` using the editor icon as texture. Write `src/scripts/p02-scenes-as-building-blocks/ball.ts` and attach the generated `scripts/p02-scenes-as-building-blocks/ball.gd` to the root:
    ```ts
    export class Ball extends Node2D {
      velocity: Vector2 = Vector2(80.0, 60.0);
@@ -14,14 +14,14 @@
      }
    }
    ```
-2. In `src/scenes/main.tscn`, drag `ball.tscn` in once (instancing in the editor).
-3. Spawn one more from code. In `src/scripts/main.ts`:
+2. In `src/scenes/p02-scenes-as-building-blocks/p2.tscn`, drag `ball.tscn` in once (instancing in the editor).
+3. Spawn one more from code. In `src/scripts/p02-scenes-as-building-blocks/p2.ts`:
    ```ts
    import { Ball } from './ball';
 
    export class Main extends Node2D {
      _ready(): void {
-       const ball = gd.as(preload('res://src/scenes/ball.tscn').instantiate(), Ball);
+       const ball = gd.as(preload('res://src/scenes/p02-scenes-as-building-blocks/ball.tscn').instantiate(), Ball);
        if (ball === null) return;
        ball.position = Vector2(200.0, 150.0);
        this.add_child(ball);

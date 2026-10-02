@@ -3,7 +3,7 @@
 **Build:** one `CharacterBody2D` player and one `StaticBody2D` wall.
 1. Player: `CharacterBody2D` > `Sprite2D` + `CollisionShape2D` (a `RectangleShape2D` the size of the sprite).
 2. Project Settings > Input Map: add actions `move_left`, `move_right`, `move_up`, `move_down` (bind WASD and arrows).
-3. In `src/scripts/player.ts`, attach the generated `player.gd` to the player:
+3. In `src/scripts/p06-move-a-character/player.ts`, attach the generated `scripts/p06-move-a-character/player.gd` to the player in `src/scenes/p06-move-a-character/p6.tscn`:
    ```ts
    export class Player extends CharacterBody2D {
      @exports speed: float = 120.0;

@@ -5,7 +5,7 @@
 2. Inside the box: one `Label` and one `HSlider`.
 3. Select the root `Control`, open the Layout menu, and try one anchor preset (Full Rect). Resize the window and watch the box move with it.
 4. Set `size_flags_horizontal` to `Expand + Fill` on the slider.
-5. One script so the label follows the slider. In `src/scripts/p5.ts`:
+5. One script so the label follows the slider. Scene: `src/scenes/p05-ui-playground/p5.tscn`. In `src/scripts/p05-ui-playground/p5.ts`:
    ```ts
    export class P5 extends Control {
      @onready slider: HSlider = this.get_node('VBoxContainer/HSlider');

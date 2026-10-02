@@ -3,5 +3,8 @@
   "gdDir": "scripts",
   "typingsDir": "src/_typings",
   "tsconfig": "tsconfig.json",
-  "exclude": ["**/*.test.ts"]
+  "exclude": [
+    "**/*.test.ts",
+    "scene-tree/**"
+  ]
 }

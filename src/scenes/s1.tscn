@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=3 uid="uid://bs1scene000001"]
+
+[ext_resource type="Script" path="res://scripts/s1.gd" id="1_s1"]
+[ext_resource type="Script" path="res://scripts/person_card.gd" id="2_card"]
+
+[node name="S1" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_s1")
+
+[node name="Card" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -90.0
+offset_right = 140.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_card")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Card"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="NameLabel" type="Label" parent="Card/VBoxContainer"]
+layout_mode = 2
+text = "Name"
+horizontal_alignment = 1
+
+[node name="FatigueBar" type="ProgressBar" parent="Card/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+max_value = 100.0
+value = 60.0
+show_percentage = false
+
+[node name="RestButton" type="Button" parent="Card/VBoxContainer"]
+layout_mode = 2
+text = "Rest"

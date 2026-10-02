@@ -5,9 +5,11 @@
   "scripts": {
     "postinstall": "mkdir -p node_modules && touch node_modules/.gdignore",
     "convert": "tstogd convert",
-    "watch": "tstogd watch"
+    "watch": "tstogd watch",
+    "scene-tree": "npm run compile --prefix scene-tree"
   },
   "devDependencies": {
+    "scene-tree": "file:./scene-tree",
     "typescript": "~5.9.3",
     "typescript-to-gdscript": "^0.1.11"
   },

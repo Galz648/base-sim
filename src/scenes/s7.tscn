@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://bs7scene000001"]
+
+[ext_resource type="Script" path="res://scripts/day.gd" id="1_day"]
+
+[node name="S7" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_day")
+
+[node name="ClockLabel" type="Label" parent="."]
+layout_mode = 1
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 120.0
+offset_bottom = 64.0
+theme_override_font_sizes/font_size = 36
+text = "6"
+
+[node name="EndLabel" type="Label" parent="."]
+layout_mode = 1
+offset_left = 24.0
+offset_top = 80.0
+offset_right = 500.0
+offset_bottom = 120.0
+text = "..."

@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=3 uid="uid://bs4scene000001"]
+
+[ext_resource type="Script" path="res://scripts/s4.gd" id="1_s4"]
+[ext_resource type="Script" path="res://scripts/event_popup.gd" id="2_popup"]
+
+[node name="S4" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_s4")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="EventPopup" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -100.0
+offset_right = 180.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_popup")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EventPopup"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="EventPopup/VBoxContainer"]
+layout_mode = 2
+text = "Event"
+horizontal_alignment = 1
+
+[node name="Body" type="Label" parent="EventPopup/VBoxContainer"]
+layout_mode = 2
+text = "..."
+autowrap_mode = 3
+
+[node name="Choice" type="Button" parent="EventPopup/VBoxContainer"]
+layout_mode = 2
+text = "Deal with it"

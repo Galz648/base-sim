@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/event_data.gd" id="1_event"]
+
+[resource]
+script = ExtResource("1_event")
+title = "Cold shower"
+body = "The water was freezing."
+fatigue_change = 0.15

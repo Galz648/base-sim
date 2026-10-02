@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Scene Tree",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": [
+        "--classic",
+        "--extensionDevelopmentPath=${workspaceFolder}/scene-tree",
+        "${workspaceFolder}"
+      ],
+      "outFiles": ["${workspaceFolder}/scene-tree/out/**/*.js"],
+      "preLaunchTask": "compile"
+    }
+  ]
+}

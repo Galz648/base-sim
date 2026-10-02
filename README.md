@@ -14,6 +14,26 @@ You are responsible for a base sitting at the border between your country and yo
 
 You walk around the base, talk to people, and personally interact with the facilities and missions you need to staff.
 
+## Roster
+a collection of units, each with a profile card. profile cards are the main way to interact with the roster.
+
+## Assets
+
+## Profile Cards 
+Stats, Hunger, Discipline, Fatigue, Morale, Relationships.
+
+## Events
+
+
+
+
+
+
+
+
+### View
+
+top down, the main scene is the buildings, sections, events. roster, scoring, unit stats, decisions. there is a map of the base. - The Escapists 2 style
 **Top down**
 
 This game is mainly based on "This is the Police", a text based game where you are a police officer and you have to manage your police force and the city you are in. text based decision making game.

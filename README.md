@@ -1,8 +1,27 @@
 # Base Sim
 
-## Main idea
+## Contents
 
-a different changes than yours
+- [Main idea](#main-idea)
+- [Gameplay](#gameplay)
+  - [How it looks](#how-it-looks)
+  - [Roster](#roster)
+  - [Assets](#assets)
+  - [Profile cards](#profile-cards)
+  - [View](#view)
+- [Domain vocabulary](#domain-vocabulary)
+- [The people](#the-people)
+  - [Stats](#stats)
+  - [Hunger](#hunger)
+  - [Discipline](#discipline)
+  - [Fatigue](#fatigue)
+  - [Resentments](#resentments)
+  - [Connections](#connections)
+- [Events](#events)
+  - [Internal](#internal)
+  - [External](#external)
+
+## Main idea
 
 You are responsible for a base sitting at the border between your country and your enemy’s. Your main job is to stop people from the other side from crossing into yours—but that is only part of the work. Managing the people—from food to motivation—is what a good leader does, and it is what will ultimately determine whether you succeed or fail at your job, and whether your country succeeds or fails.
 
@@ -10,61 +29,59 @@ You are responsible for a base sitting at the border between your country and yo
 
 ### How it looks
 
-**First person**
+#### First person
 
 You walk around the base, talk to people, and personally interact with the facilities and missions you need to staff.
 
-## Roster
-a collection of units, each with a profile card. profile cards are the main way to interact with the roster.
+### Roster
 
-## Assets
+A collection of units, each with a profile card. Profile cards are the main way to interact with the roster.
 
-## Profile Cards 
+### Assets
+
+### Profile cards
+
 Stats, Hunger, Discipline, Fatigue, Morale, Relationships.
-
-## Events
-
-
-
-
-
-
-
 
 ### View
 
-top down, the main scene is the buildings, sections, events. roster, scoring, unit stats, decisions. there is a map of the base. - The Escapists 2 style
-**Top down**
+#### Top down
 
-This game is mainly based on "This is the Police", a text based game where you are a police officer and you have to manage your police force and the city you are in. text based decision making game.
+Top down, the main scene is the buildings, sections, events, roster, scoring, unit stats, and decisions. There is a map of the base, in the style of *The Escapists 2*.
 
-Like *The Escapists*, a prison manager, or *Papers, Please*, dispach, this is the police: you get notified when a problem, event, or surprise comes up. Each real-time minute maps to a certain amount of in-game time.
+This game is mainly based on *This is the Police*, a text-based game where you are a police officer and you have to manage your police force and the city you are in.
 
-### The people
+Like *The Escapists*, a prison manager, or *Papers, Please*: you get notified when a problem, event, or surprise comes up. Each real-time minute maps to a certain amount of in-game time.
+
+## Domain vocabulary
+
+Engine — a
+
+## The people
 
 A fixed roster of NPCs walk around the base and can interact with each other. They follow a **schedule** you define: meal times, activities, physical training, free time, equipment maintenance, and similar.
 
-**Stats**
+### Stats
 
 Everyone has two or three **hidden traits**—for example leader, angry, sleepy, non-steadfast, dumb, smart, good-handed, careful, weak, coward, brave—which affect their work, mission performance, and how they get along.
 
-**Hunger**
+### Hunger
 
 Each person type has a **hunger** (including nutrients) bar that rises over time and is reduced by food. Managing food has a positive effect.
 
-**Discipline**
+### Discipline
 
 Low discipline leads to bad behaviour. People with high hunger disobey you less often; if discipline collapses they may rebel, skip missions, and raise the chance of infiltration and successful attack.
 
-**Fatigue**
+### Fatigue
 
 How alert someone is. Too many mission hours without enough rest fills this bar. High fatigue can especially hurt aiming on defense (and possibly training). It can also feed disobedience and stress.
 
-**Resentments**
+### Resentments
 
 Tied to your actions and to personality. Some people have personal requests; the group as a whole develops needs. Whether you can take certain actions, your overall stance, and how you respond all feed into this.
 
-**Connections**
+### Connections
 
 Personal ties between people can be good or bad. Whether everyone gets along or cliques form affects which teams you can put together and how effective they are.
 
@@ -74,32 +91,32 @@ A major focus of the game is **interactivity** and the **player’s impact** on 
 
 ### Internal
 
-- Car breakdown  
-- Car checkup  
-- On the fire  
-- Too many flies  
-- High winds  
-- Heat  
-- Cold  
-- No A.C.  
-- Cold shower  
-- Gimelim  
-- Cat bite  
-- Diarrhea outbreak  
-- Sport injury  
-- Oversleep  
-- No breakfast / lunch / supper  
-- Caught with tazpitanit  
-- Yezuma  
-- Problems at home  
-- Lost equipment  
+- Car breakdown
+- Car checkup
+- On the fire
+- Too many flies
+- High winds
+- Heat
+- Cold
+- No A.C.
+- Cold shower
+- Gimelim
+- Cat bite
+- Diarrhea outbreak
+- Sport injury
+- Oversleep
+- No breakfast / lunch / supper
+- Caught with tazpitanit
+- Yezuma
+- Problems at home
+- Lost equipment
 
 ### External
 
-- Infiltration (attempt)  
-- Shooting on base  
-- Wartime  
-- Hafsad  
-- Mine on trail  
-- Pressure from own personal life  
-- Long higher-ups meeting  
+- Infiltration (attempt)
+- Shooting on base
+- Wartime
+- Hafsad
+- Mine on trail
+- Pressure from own personal life
+- Long higher-ups meeting

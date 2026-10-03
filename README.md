@@ -25,7 +25,21 @@
 
 You are responsible for a base sitting at the border between your country and your enemy’s. Your main job is to stop people from the other side from crossing into yours—but that is only part of the work. Managing the people—from food to motivation—is what a good leader does, and it is what will ultimately determine whether you succeed or fail at your job, and whether your country succeeds or fails.
 
+
+## Mechanics
+The capabilities of the player in the game
+
 ## Gameplay
+
+each second maps to an hour in-game, the clock keep ticking.
+at certain points of the day there will be a pause, and the player will be asked to make a choice.
+
+
+## Dynamic
+What happens to the player as part of the game, the world acting on it's own - 
+* Soldier falling ill
+* An enemy attacking at dawn
+
 
 ### How it looks
 
@@ -52,10 +66,6 @@ Top down, the main scene is the buildings, sections, events, roster, scoring, un
 This game is mainly based on *This is the Police*, a text-based game where you are a police officer and you have to manage your police force and the city you are in.
 
 Like *The Escapists*, a prison manager, or *Papers, Please*: you get notified when a problem, event, or surprise comes up. Each real-time minute maps to a certain amount of in-game time.
-
-## Domain vocabulary
-
-Engine — a
 
 ## The people
 

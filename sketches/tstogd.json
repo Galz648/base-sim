@@ -1,0 +1,9 @@
+{
+  "tsDir": "scripts",
+  "gdDir": ".",
+  "typingsDir": "scripts/_typings",
+  "tsconfig": "tsconfig.json",
+  "exclude": [
+    "**/*.test.ts"
+  ]
+}

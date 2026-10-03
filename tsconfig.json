@@ -4,9 +4,10 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "noLib": true,
+    "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
-    "types": [],
+    "types": ["bun"],
     "plugins": [{ "name": "typescript-to-gdscript/ts-plugin" }]
   },
   "include": [

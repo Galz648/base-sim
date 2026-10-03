@@ -1,6 +1,7 @@
 {
   "name": "base-sim",
   "devDependencies": {
+    "@types/bun": "^1.4.2",
     "scene-tree": "file:./scene-tree",
     "typescript": "~5.9.3",
     "typescript-to-gdscript": "^0.1.11"

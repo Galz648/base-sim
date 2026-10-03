@@ -24,11 +24,11 @@ type GameState = {
     day: Day;
     roster: SoldierState[]
 }
-
+type HourElapsedEvent = { type: "HourElapsed" }
 type GameEvent = { type: "HourElapsed" }
 
 
 
 
 
-export type { Mission, Day, GameState, GameEvent };
+export type { Mission, Day, GameState, GameEvent, HourElapsedEvent };

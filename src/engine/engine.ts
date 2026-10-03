@@ -1,4 +1,15 @@
 import { GameState, GameEvent } from "./domain/domain";
+import { HourElapsedEvent } from "./domain/domain";
+
+function tick(): HourElapsedEvent {
+    return {
+        type: "HourElapsed"
+    }
+}
+
+type Store = {
+    events: GameEvent[]
+}
 
 function apply(state: GameState, event: GameEvent): GameState {
 
@@ -16,4 +27,6 @@ function apply(state: GameState, event: GameEvent): GameState {
 
 }
 
-export { apply }
+const store: Store = { events: [] }
+
+export { apply, tick, store }

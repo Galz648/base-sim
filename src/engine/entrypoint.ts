@@ -1,9 +1,12 @@
-import { GameState, GameEvent } from "./domain/domain";
-import { apply } from "./engine";
-const state = apply({
-    day: {
-        number: 1,
-        missions: [],
-        hour: 1,
-    }, roster: []
-}, { type: "HourElapsed" })
+import { GameState, GameEvent, HourElapsedEvent } from "./domain/domain";
+import { apply, store, tick } from "./engine";
+
+
+(
+    // () => {
+    //     tick()
+    // }
+    () => {
+        // TODO: engine code
+    }
+)()

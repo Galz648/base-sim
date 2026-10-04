@@ -75,12 +75,12 @@ class Engine {
                 })
 
                 const drain = (s: SoldierState): SoldierState =>
-                    s.status === "active" ? { ...s, stamina: clamp(s.stamina - CONFIG.DRAIN_RATE, 0, 100) } : s;
+                    s.status === "active" ? { ...s, stamina: this.math.clamp(s.stamina - CONFIG.DRAIN_RATE, 0, 100) } : s;
 
 
                 const recover = (s: SoldierState): SoldierState =>
-                    s.status === "rest" ? { ...s, stamina: clamp(s.stamina + CONFIG.RECOVERY_RATE, 0, 100) } : s;
-               
+                    s.status === "rest" ? { ...s, stamina: this.math.clamp(s.stamina + CONFIG.RECOVERY_RATE, 0, 100) } : s;
+
 
                 const new_roster = state.roster.map(drain).map(recover);
 

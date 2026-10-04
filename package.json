@@ -20,7 +20,7 @@
     "convert:sketches": "cd sketches && tstogd convert",
     "watch:sketches": "cd sketches && tstogd watch",
     "scene-tree": "npm run compile --prefix scene-tree",
-    "watch:engine": "bun --watch src/engine/entrypoint.ts",
+    "watch:sim": "bun --watch src/sim/entrypoint.ts",
     "typecheck": "tsc --noEmit",
     "prepare": "husky"
   },

@@ -1,8 +1,8 @@
-import { Engine } from "../engine/engine";
+import { Sim } from "../sim/sim";
 
 export default class GameRoot extends Node {
-  private engine = new Engine({ floor: floor, clamp: clamp });
-  private state = this.engine.store.state;
+  private sim = new Sim({ floor: floor, clamp: clamp });
+  private state = this.sim.store.state;
 
   _ready(): void {
     const timer = new Timer();
@@ -13,7 +13,7 @@ export default class GameRoot extends Node {
   }
 
   _on_tick(): void {
-    this.state = this.engine.apply(this.state, { type: "HourElapsed" });
+    this.state = this.sim.apply(this.state, { type: "HourElapsed" });
     print(this.state.hour);
   }
 }

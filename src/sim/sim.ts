@@ -18,7 +18,7 @@ type Store = {
 
 type Time = { hour: number; day: number };
 
-class Engine {
+class Sim {
   private math: MathPort;
   store: Store;
 
@@ -70,7 +70,7 @@ class Engine {
   apply(state: GameState, event: GameEvent): GameState {
     // Pure function
     const next = this.step(state, event);
-    logTransition(state, event, next);
+    logTransition(state, event, next); // TODO: This will not work under godot probably - move this somewhere else, possibly entrypoint.ts
     return next;
   }
 
@@ -122,4 +122,4 @@ class Engine {
   }
 }
 
-export { Engine };
+export { Sim };

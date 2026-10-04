@@ -1,4 +1,4 @@
-import { Sim } from "./sim";
+import { Sim } from "../sim/sim";
 
 (() => {
   const sim = new Sim({

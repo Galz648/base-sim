@@ -20,8 +20,11 @@
     "convert:sketches": "cd sketches && tstogd convert",
     "watch:sketches": "cd sketches && tstogd watch",
     "scene-tree": "npm run compile --prefix scene-tree",
-    "watch:sim": "bun --watch src/sim/entrypoint.ts",
+    "watch:sim": "bun --watch src/bun/entrypoint.ts",
+    "bun": "bun src/bun/entrypoint.ts",
+    "headless": "godot --headless --path .",
     "typecheck": "tsc --noEmit",
+    "precommit": "sh .husky/pre-commit",
     "prepare": "husky"
   },
   "trustedDependencies": [

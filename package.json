@@ -2,6 +2,9 @@
   "name": "base-sim",
   "devDependencies": {
     "@types/bun": "^1.4.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.9",
     "scene-tree": "file:./scene-tree",
     "typescript": "~5.9.3",
     "typescript-to-gdscript": "^0.1.11"
@@ -17,7 +20,9 @@
     "convert:sketches": "cd sketches && tstogd convert",
     "watch:sketches": "cd sketches && tstogd watch",
     "scene-tree": "npm run compile --prefix scene-tree",
-    "watch:engine": "bun --watch src/engine/entrypoint.ts"
+    "watch:engine": "bun --watch src/engine/entrypoint.ts",
+    "typecheck": "tsc --noEmit",
+    "prepare": "husky"
   },
   "trustedDependencies": [
     "tree-sitter-gdscript",

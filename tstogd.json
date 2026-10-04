@@ -6,6 +6,8 @@
   "exclude": [
     "**/*.test.ts",
     "scene-tree/**",
-    "examples/**"
+    "examples/**",
+    "sketches/**",
+    "src/bun/**"
   ]
 }

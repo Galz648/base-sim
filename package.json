@@ -1,19 +1,31 @@
 {
   "name": "base-sim",
-  "private": true,
+  "devDependencies": {
+    "@types/bun": "^1.4.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.9",
+    "scene-tree": "file:./scene-tree",
+    "typescript": "~5.9.3",
+    "typescript-to-gdscript": "^0.1.11"
+  },
   "packageManager": "bun@1.3.11",
+  "private": true,
   "scripts": {
     "postinstall": "mkdir -p node_modules && touch node_modules/.gdignore",
     "convert": "tstogd convert",
     "watch": "tstogd watch",
     "convert:examples": "cd examples && tstogd convert",
     "watch:examples": "cd examples && tstogd watch",
-    "scene-tree": "npm run compile --prefix scene-tree"
-  },
-  "devDependencies": {
-    "scene-tree": "file:./scene-tree",
-    "typescript": "~5.9.3",
-    "typescript-to-gdscript": "^0.1.11"
+    "convert:sketches": "cd sketches && tstogd convert",
+    "watch:sketches": "cd sketches && tstogd watch",
+    "scene-tree": "npm run compile --prefix scene-tree",
+    "watch:sim": "bun --watch src/bun/entrypoint.ts",
+    "bun": "bun src/bun/entrypoint.ts",
+    "headless": "godot --headless --path .",
+    "typecheck": "tsc --noEmit",
+    "precommit": "sh .husky/pre-commit",
+    "prepare": "husky"
   },
   "trustedDependencies": [
     "tree-sitter-gdscript",

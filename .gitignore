@@ -1,3 +1,4 @@
+*.gd
 node_modules/
 **/_typings/**
 !**/.gdignore

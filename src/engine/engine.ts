@@ -8,6 +8,8 @@ function tick(): HourElapsedEvent {
 }
 
 type Store = {
+    getState(): GameState
+    state: GameState,
     events: GameEvent[],
     dispatch(event: GameEvent): void,
     subscribe(cb: Callable): void
@@ -16,12 +18,10 @@ type Store = {
 }
 type Time = { hour: number, day: number }
 function incrementTime(time: Time): Time {
-    console.log(JSON.stringify({ currentDay: time.day, currentHour: time.hour }))
     const increment = (x: number) => x + 1
     const total_time = increment(time.hour) + time.day * 24
     const hour = total_time % 24;
     const day = Math.floor(total_time / 24);
-    console.log(JSON.stringify({ day, hour }))
 
     return {
         hour,
@@ -29,7 +29,9 @@ function incrementTime(time: Time): Time {
     }
 }
 function reduce(state: GameState, event: GameEvent): GameState {
-
+    console.log(
+        `Event: ${JSON.stringify(event)} | Reduced State: ${JSON.stringify(state)}`
+    );
     switch (event.type) {
         case "HourElapsed":
             // For now, just return the state unchanged
@@ -52,12 +54,22 @@ function reduce(state: GameState, event: GameEvent): GameState {
 }
 
 const store: Store = {
+    state: {
+        roster: [],
+        day: 1,
+        missions: [],
+        hour: 1
+    },
     events: [],
     dispatch: function (event: GameEvent): void {
-        this.events.append(event) //TODO: determine if LIFO or FIFO, currently LIFO
+        // this.events.push_front(event)
+        this.state = reduce(this.state, event);
     },
     subscribe: function (cb: Callable): void {
-        cb()
+        cb();
+    },
+    getState: function (): GameState {
+        return this.state
     }
 }
 

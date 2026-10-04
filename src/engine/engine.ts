@@ -6,7 +6,7 @@ import {
   SoldierState,
   HourElapsedEvent,
 } from "./domain/domain";
-import { logApply } from "./utils";
+import { logTransition } from "./utils";
 
 type Store = {
   getState(): GameState;
@@ -69,7 +69,12 @@ class Engine {
 
   apply(state: GameState, event: GameEvent): GameState {
     // Pure function
-    logApply(state, event);
+    const next = this.step(state, event);
+    logTransition(state, event, next);
+    return next;
+  }
+
+  private step(state: GameState, event: GameEvent): GameState {
     switch (event.type) {
       case "HourElapsed":
         const time = this.incrementTime({

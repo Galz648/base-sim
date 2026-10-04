@@ -1,11 +1,6 @@
-import { GameState, GameEvent } from "./domain/domain";
-import { HourElapsedEvent } from "./domain/domain";
-function tick(): HourElapsedEvent {
-    console.log(`tick`)
-    return {
-        type: "HourElapsed"
-    }
-}
+import { MathPort } from "../boundary";
+import { CONFIG } from "./config";
+import { GameState, GameEvent, SoldierState, HourElapsedEvent } from "./domain/domain";
 
 type Store = {
     getState(): GameState
@@ -13,64 +8,97 @@ type Store = {
     events: GameEvent[],
     dispatch(event: GameEvent): void,
     subscribe(cb: Callable): void
-
-
 }
+
 type Time = { hour: number, day: number }
-function incrementTime(time: Time): Time {
-    const increment = (x: number) => x + 1
-    const total_time = increment(time.hour) + time.day * 24
-    const hour = total_time % 24;
-    const day = Math.floor(total_time / 24);
 
-    return {
-        hour,
-        day
-    }
-}
-function reduce(state: GameState, event: GameEvent): GameState {
-    console.log(
-        `Event: ${JSON.stringify(event)} | Reduced State: ${JSON.stringify(state)}`
-    );
-    switch (event.type) {
-        case "HourElapsed":
-            // For now, just return the state unchanged
+class Engine {
+    private math: MathPort;
+    store: Store;
 
-            const time = incrementTime({
-                day: state.day,
-                hour: state.hour
-            })
-            return {
-                ...state,
-                ...time
+    constructor(math: MathPort) {
+        this.math = math;
+        this.store = {
+            state: {
+                roster: [
+                    { id: 1, name: "Alice", health: 100, stamina: 100, status: "active" },
+                    { id: 2, name: "Bob", health: 100, stamina: 100, status: "active" },
+                    { id: 3, name: "Chen", health: 100, stamina: 100, status: "active" }
+                ],
+                day: 1,
+                missions: [],
+                hour: 1
+            },
+            events: [],
+            dispatch: (event: GameEvent): void => {
+                // this.store.events.push_front(event)
+                this.store.state = this.apply(this.store.state, event);
+            },
+            subscribe: function (cb: Callable): void {
+                cb();
+            },
+            getState: function (): GameState {
+                return this.state
             }
-        default:
-            // This ensures exhaustiveness
-            const _exhaustive: never = event.type;
-            return state;
+        }
     }
 
+    tick(): HourElapsedEvent {
+        console.log(`tick`)
+        return {
+            type: "HourElapsed"
+        }
+    }
 
-}
+    private incrementTime(time: Time): Time {
+        const increment = (x: number) => x + 1
+        const total_time = increment(time.hour) + time.day * 24
+        const hour = total_time % 24;
+        const day = this.math.floor(total_time / 24);
 
-const store: Store = {
-    state: {
-        roster: [],
-        day: 1,
-        missions: [],
-        hour: 1
-    },
-    events: [],
-    dispatch: function (event: GameEvent): void {
-        // this.events.push_front(event)
-        this.state = reduce(this.state, event);
-    },
-    subscribe: function (cb: Callable): void {
-        cb();
-    },
-    getState: function (): GameState {
-        return this.state
+        return {
+            hour,
+            day
+        }
+    }
+
+    apply(state: GameState, event: GameEvent): GameState { // Pure function
+        console.log(
+            `Event: ${JSON.stringify(event)} | applied State: ${JSON.stringify(state)}`
+        );
+        switch (event.type) {
+            case "HourElapsed":
+
+                const time = this.incrementTime({
+                    day: state.day,
+                    hour: state.hour
+                })
+
+                const drain = (s: SoldierState): SoldierState =>
+                    s.status === "active" ? { ...s, stamina: clamp(s.stamina - CONFIG.DRAIN_RATE, 0, 100) } : s;
+
+
+                const recover = (s: SoldierState): SoldierState =>
+                    s.status === "rest" ? { ...s, stamina: clamp(s.stamina + CONFIG.RECOVERY_RATE, 0, 100) } : s;
+               
+
+                const new_roster = state.roster.map(drain).map(recover);
+
+                return { ...state, ...time, roster: new_roster };
+
+            default:
+                // This ensures exhaustiveness
+                const _exhaustive: never = event.type;
+                return state;
+        }
+    }
+
+    start(): void { // TODO: this should be runtime agnostic, so it fits in GODOT
+        setInterval(() => {
+            const event = this.tick();
+            this.store.dispatch(event)
+        }, 1000)
     }
 }
 
-export { reduce, tick, store }
+export { Engine }

@@ -1,8 +1,9 @@
 interface SoldierState {
-    id: string,
+    id: number,
     name: string,
     health: number,
-    status: "injury" | "health" | "dead" | "rest"
+    stamina: number,
+    status: "injury" | "active" | "rest"
 }
 
 type Mission = {
@@ -31,4 +32,4 @@ type GameEvent = { type: "HourElapsed" }
 
 
 
-export type { Mission, Day, GameState, GameEvent, HourElapsedEvent };
+export type { Mission, GameState, GameEvent, HourElapsedEvent };

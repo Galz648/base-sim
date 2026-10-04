@@ -1,15 +1,12 @@
-import { GameState, GameEvent, HourElapsedEvent } from "./domain/domain";
-import { reduce, store, tick } from "./engine";
+import { Engine } from "./engine";
 
 
 (
     () => {
-        setInterval(() => {
-            const event = tick();
-            store.dispatch(event)
-
-
-        }, 1000)
-        // TODO: engine code
+        const engine = new Engine({
+            floor: Math.floor,
+            clamp: (value: number, min: number, max: number) => Math.min(Math.max(value, min), max),
+        });
+        engine.start();
     }
 )()

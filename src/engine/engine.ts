@@ -6,6 +6,7 @@ import {
   SoldierState,
   HourElapsedEvent,
 } from "./domain/domain";
+import { logApply } from "./utils";
 
 type Store = {
   getState(): GameState;
@@ -26,7 +27,7 @@ class Engine {
     this.store = {
       state: {
         roster: [
-          { id: 2, name: "Gal", health: 100, stamina: 100, status: "rest" },
+          { id: 2, name: "Gal", health: 100, stamina: 50, status: "rest" },
           { id: 1, name: "Nir", health: 100, stamina: 100, status: "active" },
         ],
         day: 1,
@@ -68,9 +69,7 @@ class Engine {
 
   apply(state: GameState, event: GameEvent): GameState {
     // Pure function
-    console.log(
-      `Event: ${JSON.stringify(event)} | applied State: ${JSON.stringify(state)}`
-    );
+    logApply(state, event);
     switch (event.type) {
       case "HourElapsed":
         const time = this.incrementTime({

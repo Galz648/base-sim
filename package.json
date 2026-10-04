@@ -16,7 +16,8 @@
     "watch:examples": "cd examples && tstogd watch",
     "convert:sketches": "cd sketches && tstogd convert",
     "watch:sketches": "cd sketches && tstogd watch",
-    "scene-tree": "npm run compile --prefix scene-tree"
+    "scene-tree": "npm run compile --prefix scene-tree",
+    "watch:engine": "bun --watch src/engine/entrypoint.ts"
   },
   "trustedDependencies": [
     "tree-sitter-gdscript",

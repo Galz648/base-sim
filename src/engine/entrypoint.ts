@@ -1,12 +1,23 @@
 import { GameState, GameEvent, HourElapsedEvent } from "./domain/domain";
-import { apply, store, tick } from "./engine";
+import { reduce, store, tick } from "./engine";
 
 
 (
-    // () => {
-    //     tick()
-    // }
     () => {
+        let state: GameState = {
+            roster: [],
+            day: 1,
+            missions: [],
+            hour: 1
+        }
+        setInterval(() => {
+            const event = tick();
+            state = reduce(state, event);
+            console.log(
+                `Event: ${JSON.stringify(event)} | Reduced State: ${JSON.stringify(state)}`
+            );
+
+        }, 1000)
         // TODO: engine code
     }
 )()

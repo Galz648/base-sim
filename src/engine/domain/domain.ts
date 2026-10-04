@@ -14,14 +14,14 @@ type Mission = {
 export { type SoldierState }
 
 
-type Day = {
-    number: number;
-    missions: Mission[];
-    hour: number;
-}
+// type Day = {
+
+// }
 
 type GameState = {
-    day: Day;
+    day: number;
+    missions: Mission[];
+    hour: number;
     roster: SoldierState[]
 }
 type HourElapsedEvent = { type: "HourElapsed" }

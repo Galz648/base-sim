@@ -12,7 +12,9 @@ The game is modeled as functions over typed values. Visuals wait until that mode
 
 New runtime capabilities are further properties on that same shim. A timer is the next one: `Sim.start` still drives the hour loop, but through a timer port shaped like Godot's `Timer`, so the Bun loop and the Godot loop share one call site.
 
-The timer is not implemented yet. When it is, it lands in the places below. No Bun timer class, `setInterval`, or other runtime body goes into a file tstogd converts.
+The timer is not implemented yet. `Sim.start` still owns both `setInterval`s. When the port exists, it lands in the places below. No Bun timer class, `setInterval`, or other runtime body goes into a file tstogd converts.
+
+Assignment is an event (`MissionAssignmentEvent`), reduced in `src/sim/sim.ts`. Bun does not dispatch one yet. Do that from `src/bun/entrypoint.ts`, not from converted Godot scripts.
 
 ### Where shim pieces sit
 

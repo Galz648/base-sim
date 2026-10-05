@@ -5,18 +5,16 @@ interface SoldierState {
   stamina: number;
   status: "injury" | "active" | "rest";
 }
+type SoldierId = SoldierState["id"];
 
 type Mission = {
-  id: string;
+  id: number;
+  duration: number;
+  assigned: SoldierId[];
   name: string;
   requiredSolders: number;
-  outcome: "pending" | "success" | "failure";
+  status: "pending" | "done" | "not-started";
 };
-export { type SoldierState };
-
-// type Day = {
-
-// }
 
 type GameState = {
   day: number;
@@ -25,6 +23,6 @@ type GameState = {
   roster: SoldierState[];
 };
 type HourElapsedEvent = { type: "HourElapsed" };
-type GameEvent = { type: "HourElapsed" };
+type GameEvent = HourElapsedEvent;
 
-export type { Mission, GameState, GameEvent, HourElapsedEvent };
+export type { Mission, GameState, GameEvent, HourElapsedEvent, SoldierState };

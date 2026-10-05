@@ -14,7 +14,16 @@ export class Sim {
           { id: 1, name: "Nir", health: 100, stamina: 100, status: "active" },
         ],
         day: 1,
-        missions: [],
+        missions: [
+          {
+            id: 0,
+            duration: 6,
+            assigned: [],
+            name: "Recon Patrol",
+            requiredSolders: 2,
+            status: "pending",
+          },
+        ],
         hour: 1,
       },
     };

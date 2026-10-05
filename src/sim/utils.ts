@@ -1,4 +1,4 @@
-import { GameEvent, GameState, SoldierState } from "./domain/domain";
+import { GameEvent, GameState, SoldierState } from "./domain";
 
 const ansi = {
   reset: "\x1b[0m",

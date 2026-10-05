@@ -14,6 +14,7 @@ export default class GameRoot extends Node {
 
   _on_tick(): void {
     this.state = this.sim.apply(this.state, { type: "HourElapsed" });
+
     print(this.state);
   }
 }

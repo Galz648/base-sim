@@ -1,5 +1,5 @@
-import type { MathPort } from "../boundary";
-import type { GameEvent, GameState, SoldierState } from "../sim/domain/domain";
+import type { MathPort } from "../../sim/boundary";
+import type { GameEvent, GameState, SoldierState } from "../sim/domain";
 
 export class Sim {
   private math: MathPort;

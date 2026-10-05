@@ -1,11 +1,6 @@
-import { MathPort } from "../boundary";
+import { MathPort } from "../../sim/boundary";
 import { CONFIG } from "./config";
-import {
-  GameState,
-  GameEvent,
-  SoldierState,
-  HourElapsedEvent,
-} from "./domain/domain";
+import { GameState, GameEvent, SoldierState, HourElapsedEvent } from "./domain";
 import { logTransition } from "./utils";
 
 type Store = {

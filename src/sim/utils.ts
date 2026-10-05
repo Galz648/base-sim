@@ -1,4 +1,4 @@
-import { GameEvent, GameState, Mission, SoldierState } from "./domain";
+import { ActiveMission, GameEvent, GameState, SoldierState } from "./domain";
 
 const ansi = {
   reset: "\x1b[0m",
@@ -14,12 +14,6 @@ const statusAnsi: Record<SoldierState["status"], string> = {
   active: ansi.green,
   rest: ansi.yellow,
   injury: ansi.red,
-};
-
-const missionAnsi: Record<Mission["status"], string> = {
-  pending: ansi.yellow,
-  "not-started": ansi.dim,
-  done: ansi.green,
 };
 
 function vitalAnsi(n: number): string {
@@ -99,18 +93,6 @@ function padVisible(s: string, width: number): string {
   return s + " ".repeat(width - n);
 }
 
-function paintMissionStatus(status: Mission["status"]): string {
-  return `${missionAnsi[status]}${ansi.bold}${status}${ansi.reset}`;
-}
-
-function showMissionStatus(
-  before: Mission["status"],
-  after: Mission["status"]
-): string {
-  if (before === after) return paintMissionStatus(after);
-  return `${paintMissionStatus(before)} ${arrow} ${paintMissionStatus(after)}`;
-}
-
 function crewNames(ids: number[], roster: SoldierState[]): string {
   if (ids.length === 0) return "—";
   const byId = new Map<number, string>();
@@ -118,43 +100,68 @@ function crewNames(ids: number[], roster: SoldierState[]): string {
   return ids.map((id) => byId.get(id) ?? `#${id}`).join(", ");
 }
 
-function missionPanel(before: GameState, after: GameState): string[] {
-  const lines = [`${ansi.dim}missions${ansi.reset}`];
-  if (after.missions.length === 0) {
+function showHours(label: string, before: number, after: number): string {
+  if (before === after) return `${label} ${after}h`;
+  return `${label} ${before}h ${arrow} ${after}h`;
+}
+
+function section(title: string, rows: string[]): string[] {
+  const lines = [`${ansi.dim}${title}${ansi.reset}`];
+  if (rows.length === 0) {
     lines.push(`  ${ansi.dim}none${ansi.reset}`);
     return lines;
   }
+  return lines.concat(rows);
+}
 
-  const beforeById = new Map<number, Mission>();
-  for (const m of before.missions) beforeById.set(m.id, m);
+function missionPanel(before: GameState, after: GameState): string[] {
+  const beforeActive = new Map<number, ActiveMission>();
+  for (const m of before.in_progress) beforeActive.set(m.id, m);
+
+  const available: string[] = [];
   for (const m of after.missions) {
-    const prev = beforeById.get(m.id);
-    const status = prev
-      ? showMissionStatus(prev.status, m.status)
-      : `${ansi.green}new${ansi.reset} ${paintMissionStatus(m.status)}`;
-    const crew = `${m.assigned.length}/${m.requiredSolders}`;
-    lines.push(`  ${ansi.bold}${m.name}${ansi.reset}`);
-    lines.push(`    ${status}  ${crew}  ${m.duration}h`);
+    available.push(`  ${ansi.bold}${m.name}${ansi.reset}`);
+    available.push(
+      `    ${m.assigned.length}/${m.requiredSolders}  ${m.duration}h`
+    );
     if (m.assigned.length > 0) {
-      lines.push(
+      available.push(
         `    ${ansi.dim}${crewNames(m.assigned, after.roster)}${ansi.reset}`
       );
     }
   }
 
-  const afterIds = new Set(after.missions.map((m) => m.id));
-  for (const m of before.missions) {
-    if (afterIds.has(m.id)) continue;
-    lines.push(`  ${m.name} ${ansi.red}removed${ansi.reset}`);
+  const active: string[] = [];
+  for (const m of after.in_progress) {
+    const prev = beforeActive.get(m.id);
+    const remaining = prev
+      ? showHours("remaining", prev.remaining, m.remaining)
+      : `remaining ${m.remaining}h`;
+    active.push(`  ${ansi.cyan}${ansi.bold}${m.name}${ansi.reset}`);
+    active.push(`    ${remaining}`);
+    if (m.assigned.length > 0) {
+      active.push(
+        `    ${ansi.dim}${crewNames(m.assigned, after.roster)}${ansi.reset}`
+      );
+    }
   }
 
-  return lines;
+  const completed: string[] = [];
+  for (const m of after.completed) {
+    completed.push(`  ${ansi.green}${m.name}${ansi.reset}`);
+  }
+
+  return [
+    ...section("available", available),
+    ...section("active", active),
+    ...section("completed", completed),
+  ];
 }
 
 function zipColumns(left: string[], right: string[]): string {
   const total = process.stdout.columns ?? 80;
   const content = left.reduce((m, s) => Math.max(m, visibleLen(s)), 0);
-  const reserved = 28;
+  const reserved = 36;
   const leftWidth = Math.min(
     Math.max(content, 24),
     Math.max(24, total - reserved)

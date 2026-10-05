@@ -7,13 +7,27 @@ interface SoldierState {
 }
 type SoldierId = SoldierState["id"];
 
+type ActiveMission = {
+  id: number;
+  remaining: number;
+  assigned: SoldierId[];
+  name: string;
+};
+type CompletedMission = {
+  id: number;
+  name: string;
+};
+
+const MISSION_STATUS = ["pending", "done", "available"] as const;
+type MissionStatus = (typeof MISSION_STATUS)[number];
+
 type Mission = {
   id: number;
   duration: number;
   assigned: SoldierId[];
   name: string;
   requiredSolders: number;
-  status: "pending" | "done" | "not-started";
+  status: MissionStatus;
 };
 
 type GameState = {
@@ -21,8 +35,27 @@ type GameState = {
   missions: Mission[];
   hour: number;
   roster: SoldierState[];
+  in_progress: ActiveMission[];
+  completed: CompletedMission[];
+};
+
+type CompletedMissionEvent = {
+  type: "MissionCompleted";
+  id: number;
+  name: string;
 };
 type HourElapsedEvent = { type: "HourElapsed" };
-type GameEvent = HourElapsedEvent;
+type GameEvent = HourElapsedEvent | CompletedMissionEvent;
 
-export type { Mission, GameState, GameEvent, HourElapsedEvent, SoldierState };
+export { MISSION_STATUS };
+export type {
+  Mission,
+  MissionStatus,
+  GameState,
+  GameEvent,
+  HourElapsedEvent,
+  SoldierState,
+  ActiveMission,
+  CompletedMission,
+  CompletedMissionEvent,
+};

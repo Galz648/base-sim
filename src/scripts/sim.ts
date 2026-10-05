@@ -25,6 +25,8 @@ export class Sim {
           },
         ],
         hour: 1,
+        in_progress: [],
+        completed: [],
       },
     };
   }
@@ -56,6 +58,7 @@ export class Sim {
     }
 
     return {
+      ...state,
       day: day,
       hour: hour,
       missions: state.missions,

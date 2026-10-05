@@ -1,8 +1,14 @@
 import { MathPort } from "../../sim/boundary";
 import { CONFIG } from "./config";
-import { GameState, GameEvent, SoldierState, HourElapsedEvent } from "./domain";
+import {
+  GameState,
+  GameEvent,
+  SoldierState,
+  HourElapsedEvent,
+  ActiveMission,
+  CompletedMissionEvent,
+} from "./domain";
 import { logTransition } from "./utils";
-
 type Store = {
   getState(): GameState;
   state: GameState;
@@ -28,15 +34,24 @@ class Sim {
         day: 1,
         missions: [
           {
-            id: 0,
+            id: 1,
             duration: 6,
             assigned: [],
             name: "Recon Patrol",
-            requiredSolders: 2,
-            status: "pending",
+            requiredSolders: 1,
+            status: "available",
           },
         ],
         hour: 1,
+        in_progress: [
+          {
+            id: 2,
+            remaining: 4,
+            assigned: [1],
+            name: "Night Watch",
+          },
+        ],
+        completed: [{ id: 3, name: "Supply Run" }],
       },
       events: [],
       dispatch: (event: GameEvent): void => {
@@ -86,39 +101,50 @@ class Sim {
           hour: state.hour,
         });
 
-        const drain = (s: SoldierState): SoldierState =>
-          s.status === "active"
-            ? {
-                ...s,
-                stamina: this.math.clamp(s.stamina - CONFIG.DRAIN_RATE, 0, 100),
-              }
-            : s;
+        return {
+          ...state,
+          ...time,
+          in_progress: state.in_progress.map((mission: ActiveMission) => ({
+            ...mission,
+            remaining: mission.remaining - 1,
+          })),
+        };
 
-        const recover = (s: SoldierState): SoldierState =>
-          s.status === "rest"
-            ? {
-                ...s,
-                stamina: this.math.clamp(
-                  s.stamina + CONFIG.RECOVERY_RATE,
-                  0,
-                  100
-                ),
-              }
-            : s;
-
-        const new_roster = state.roster.map(drain).map(recover);
-
-        return { ...state, ...time, roster: new_roster };
+      case "MissionCompleted":
+        return {
+          ...state,
+          in_progress: state.in_progress.filter((m) => m.id !== event.id),
+          completed: [...state.completed, { id: event.id, name: event.name }],
+        };
 
       default:
         // This ensures exhaustiveness
-        const _exhaustive: never = event.type;
+        const _exhaustive: never = event;
         return state;
     }
   }
 
   start(): void {
     // TODO: this should be runtime agnostic, so it fits in GODOT
+    setInterval(() => {
+      // this.store.dispatch(event);
+      const freshly_completed = this.store
+        .getState()
+        .in_progress.filter((active: ActiveMission) => active.remaining === 0);
+      const completed_missions_events = freshly_completed.map(
+        (mission: ActiveMission): CompletedMissionEvent => {
+          return {
+            type: "MissionCompleted",
+            id: mission.id,
+            name: mission.name,
+          };
+        }
+      );
+      completed_missions_events.forEach((e: CompletedMissionEvent) =>
+        this.store.dispatch(e)
+      );
+    }, 1000);
+
     setInterval(() => {
       const event = this.tick();
       this.store.dispatch(event);

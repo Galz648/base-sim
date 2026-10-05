@@ -10,10 +10,14 @@ const ansi = {
   red: "\x1b[31m",
 };
 
-const statusAnsi: Record<SoldierState["status"], string> = {
+const dutyAnsi: Record<SoldierState["duty"], string> = {
   active: ansi.green,
   rest: ansi.yellow,
-  injury: ansi.red,
+};
+
+const conditionAnsi: Record<SoldierState["condition"], string> = {
+  fit: ansi.green,
+  injured: ansi.red,
 };
 
 function vitalAnsi(n: number): string {
@@ -33,16 +37,28 @@ function showNum(label: string, before: number, after: number): string {
   return `${label} ${paintNum(before)} ${arrow} ${paintNum(after)}`;
 }
 
-function paintStatus(status: SoldierState["status"]): string {
-  return `${statusAnsi[status]}${ansi.bold}${status.padEnd(7)}${ansi.reset}`;
+function paintDuty(duty: SoldierState["duty"]): string {
+  return `${dutyAnsi[duty]}${ansi.bold}${duty.padEnd(6)}${ansi.reset}`;
 }
 
-function showStatus(
-  before: SoldierState["status"],
-  after: SoldierState["status"]
+function showDuty(
+  before: SoldierState["duty"],
+  after: SoldierState["duty"]
 ): string {
-  if (before === after) return paintStatus(after);
-  return `${paintStatus(before)} ${arrow} ${paintStatus(after)}`;
+  if (before === after) return paintDuty(after);
+  return `${paintDuty(before)} ${arrow} ${paintDuty(after)}`;
+}
+
+function paintCondition(condition: SoldierState["condition"]): string {
+  return `${conditionAnsi[condition]}${condition}${ansi.reset}`;
+}
+
+function showCondition(
+  before: SoldierState["condition"],
+  after: SoldierState["condition"]
+): string {
+  if (before === after) return paintCondition(after);
+  return `${paintCondition(before)} ${arrow} ${paintCondition(after)}`;
 }
 
 function showClock(before: GameState, after: GameState): string {
@@ -71,7 +87,7 @@ function rosterTransition(before: GameState, after: GameState): string {
       continue;
     }
     lines.push(
-      `  ${prev.name.padEnd(8)} ${showStatus(prev.status, next.status)}  ${showNum("hp", prev.health, next.health)}  ${showNum("stamina", prev.stamina, next.stamina)}`
+      `  ${prev.name.padEnd(8)} ${showDuty(prev.duty, next.duty)}  ${showCondition(prev.condition, next.condition)}  ${showNum("hp", prev.health, next.health)}  ${showNum("stamina", prev.stamina, next.stamina)}`
     );
   }
 
@@ -195,8 +211,7 @@ export function logApply(state: GameState, event: GameEvent): void {
     `${ansi.dim}event${ansi.reset}  ${ansi.bold}${ansi.cyan}${event.type}${ansi.reset}`,
     `${ansi.dim}state${ansi.reset}  day ${state.day}  hour ${String(state.hour).padStart(2)}`,
     ...state.roster.map((s) => {
-      const status = `${statusAnsi[s.status]}${ansi.bold}${s.status.padEnd(7)}${ansi.reset}`;
-      return `  ${s.name.padEnd(8)} ${status}  hp ${paintNum(s.health)}  stamina ${paintNum(s.stamina)}`;
+      return `  ${s.name.padEnd(8)} ${paintDuty(s.duty)}  ${paintCondition(s.condition)}  hp ${paintNum(s.health)}  stamina ${paintNum(s.stamina)}`;
     }),
   ];
   console.log(zipColumns(left, missionPanel(state, state)));

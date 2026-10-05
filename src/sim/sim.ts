@@ -28,8 +28,22 @@ class Sim {
     this.store = {
       state: {
         roster: [
-          { id: 2, name: "Gal", health: 100, stamina: 50, status: "rest" },
-          { id: 1, name: "Nir", health: 100, stamina: 100, status: "active" },
+          {
+            id: 2,
+            name: "Gal",
+            health: 100,
+            stamina: 50,
+            duty: "rest",
+            condition: "fit",
+          },
+          {
+            id: 1,
+            name: "Nir",
+            health: 100,
+            stamina: 100,
+            duty: "active",
+            condition: "fit",
+          },
         ],
         day: 1,
         missions: [
@@ -120,12 +134,11 @@ class Sim {
           throw new Error(`Mission with id ${event.mission_id} not found.`);
         }
 
-        // get the soldier ids + modify the status of the soldier ids
         const updated_roster = state.roster.map(
           (s: SoldierState): SoldierState => {
-            if (mission.assigned.includes(s.id) && s.status !== "injury") {
+            if (mission.assigned.includes(s.id)) {
               // TODO: handle the case of injury on a task - note that it might not be assigned at this point
-              return { ...s, status: "rest" }; // this will probably cause problems if one soldier returns injured from a task. status could be changed to "deployed" | "free", to avoid this.
+              return { ...s, duty: "rest" }; // this will probably cause problems if one soldier returns injured from a task. status could be changed to "deployed" | "free", to avoid this.
             }
             return s;
           }

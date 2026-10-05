@@ -3,7 +3,8 @@ interface SoldierState {
   name: string;
   health: number;
   stamina: number;
-  status: "injury" | "active" | "rest";
+  duty: "active" | "rest";
+  condition: "fit" | "injured";
 }
 type SoldierId = SoldierState["id"];
 

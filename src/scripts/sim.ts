@@ -10,8 +10,22 @@ export class Sim {
     this.store = {
       state: {
         roster: [
-          { id: 2, name: "Gal", health: 100, stamina: 50, status: "rest" },
-          { id: 1, name: "Nir", health: 100, stamina: 100, status: "active" },
+          {
+            id: 2,
+            name: "Gal",
+            health: 100,
+            stamina: 50,
+            duty: "rest",
+            condition: "fit",
+          },
+          {
+            id: 1,
+            name: "Nir",
+            health: 100,
+            stamina: 100,
+            duty: "active",
+            condition: "fit",
+          },
         ],
         day: 1,
         missions: [
@@ -43,9 +57,9 @@ export class Sim {
 
     for (const s of state.roster) {
       let stamina = s.stamina;
-      if (s.status == "active") {
+      if (s.duty == "active") {
         stamina = this.math.clamp(stamina - 1, 0, 100);
-      } else if (s.status == "rest") {
+      } else if (s.duty == "rest") {
         stamina = this.math.clamp(stamina + 1, 0, 100);
       }
       roster.append({
@@ -53,7 +67,8 @@ export class Sim {
         name: s.name,
         health: s.health,
         stamina: stamina,
-        status: s.status,
+        duty: s.duty,
+        condition: s.condition,
       });
     }
 

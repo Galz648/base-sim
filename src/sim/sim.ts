@@ -36,7 +36,7 @@ class Sim {
           {
             id: 1,
             duration: 6,
-            assigned: [],
+            assigned: [1],
             name: "Recon Patrol",
             requiredSolders: 1,
             status: "available",
@@ -111,10 +111,35 @@ class Sim {
         };
 
       case "MissionCompleted":
+        // get the mission
+        const mission = state.in_progress.find(
+          (m) => m.id === event.mission_id
+        );
+
+        if (!mission) {
+          throw new Error(`Mission with id ${event.mission_id} not found.`);
+        }
+
+        // get the soldier ids + modify the status of the soldier ids
+        const updated_roster = state.roster.map(
+          (s: SoldierState): SoldierState => {
+            if (mission.assigned.includes(s.id) && s.status !== "injury") {
+              // TODO: handle the case of injury on a task - note that it might not be assigned at this point
+              return { ...s, status: "rest" }; // this will probably cause problems if one soldier returns injured from a task. status could be changed to "deployed" | "free", to avoid this.
+            }
+            return s;
+          }
+        );
         return {
           ...state,
-          in_progress: state.in_progress.filter((m) => m.id !== event.id),
-          completed: [...state.completed, { id: event.id, name: event.name }],
+          roster: updated_roster,
+          in_progress: state.in_progress.filter(
+            (m) => m.id !== event.mission_id
+          ),
+          completed: [
+            ...state.completed,
+            { id: event.mission_id, name: event.name },
+          ],
         };
 
       default:
@@ -125,9 +150,14 @@ class Sim {
   }
 
   start(): void {
-    // TODO: this should be runtime agnostic, so it fits in GODOT
+    // TODO: this should be runtime agnostic, so it fits in GODOT (so no SetInterval, should probably be wrapped in some Timer construct, to mimic Godot roughly)
     setInterval(() => {
-      // this.store.dispatch(event);
+      //NOTE: This should always run first.
+      const event = this.tick();
+      this.store.dispatch(event);
+    }, 1000);
+
+    setInterval(() => {
       const freshly_completed = this.store
         .getState()
         .in_progress.filter((active: ActiveMission) => active.remaining === 0);
@@ -135,7 +165,7 @@ class Sim {
         (mission: ActiveMission): CompletedMissionEvent => {
           return {
             type: "MissionCompleted",
-            id: mission.id,
+            mission_id: mission.id,
             name: mission.name,
           };
         }
@@ -143,11 +173,6 @@ class Sim {
       completed_missions_events.forEach((e: CompletedMissionEvent) =>
         this.store.dispatch(e)
       );
-    }, 1000);
-
-    setInterval(() => {
-      const event = this.tick();
-      this.store.dispatch(event);
     }, 1000);
   }
 }

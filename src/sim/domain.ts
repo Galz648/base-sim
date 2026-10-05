@@ -41,7 +41,7 @@ type GameState = {
 
 type CompletedMissionEvent = {
   type: "MissionCompleted";
-  id: number;
+  mission_id: number;
   name: string;
 };
 type HourElapsedEvent = { type: "HourElapsed" };

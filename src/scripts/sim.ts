@@ -32,7 +32,6 @@ export class Sim {
           {
             id: 0,
             duration: 6,
-            assigned: [],
             name: "Recon Patrol",
             requiredSolders: 2,
             status: "pending",

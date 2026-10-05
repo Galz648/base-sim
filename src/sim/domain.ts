@@ -8,6 +8,16 @@ interface SoldierState {
 }
 type SoldierId = SoldierState["id"];
 
+function availableToActive(
+  m: Mission,
+  assigned_soldier_ids: SoldierId[]
+): ActiveMission {
+  return {
+    ...m,
+    remaining: m.duration,
+    assigned: assigned_soldier_ids,
+  };
+}
 type ActiveMission = {
   id: number;
   remaining: number;
@@ -25,7 +35,6 @@ type MissionStatus = (typeof MISSION_STATUS)[number];
 type Mission = {
   id: number;
   duration: number;
-  assigned: SoldierId[];
   name: string;
   requiredSolders: number;
   status: MissionStatus;
@@ -46,7 +55,13 @@ type CompletedMissionEvent = {
   name: string;
 };
 type HourElapsedEvent = { type: "HourElapsed" };
-type GameEvent = HourElapsedEvent | CompletedMissionEvent;
+type MissionAssignmentEvent = {
+  type: "MissionAssignmentEvent";
+  mission_id: Mission["id"];
+  soldier_ids: SoldierState["id"][];
+};
+type GameEvent =
+  HourElapsedEvent | CompletedMissionEvent | MissionAssignmentEvent;
 
 export { MISSION_STATUS };
 export type {
@@ -60,3 +75,5 @@ export type {
   CompletedMission,
   CompletedMissionEvent,
 };
+
+export { availableToActive };

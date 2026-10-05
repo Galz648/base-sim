@@ -137,14 +137,7 @@ function missionPanel(before: GameState, after: GameState): string[] {
   const available: string[] = [];
   for (const m of after.missions) {
     available.push(`  ${ansi.bold}${m.name}${ansi.reset}`);
-    available.push(
-      `    ${m.assigned.length}/${m.requiredSolders}  ${m.duration}h`
-    );
-    if (m.assigned.length > 0) {
-      available.push(
-        `    ${ansi.dim}${crewNames(m.assigned, after.roster)}${ansi.reset}`
-      );
-    }
+    available.push(`    need ${m.requiredSolders}  ${m.duration}h`);
   }
 
   const active: string[] = [];
@@ -175,13 +168,7 @@ function missionPanel(before: GameState, after: GameState): string[] {
 }
 
 function zipColumns(left: string[], right: string[]): string {
-  const total = process.stdout.columns ?? 80;
-  const content = left.reduce((m, s) => Math.max(m, visibleLen(s)), 0);
-  const reserved = 36;
-  const leftWidth = Math.min(
-    Math.max(content, 24),
-    Math.max(24, total - reserved)
-  );
+  const leftWidth = 56;
   const gutter = ` ${ansi.dim}│${ansi.reset} `;
   const rows = Math.max(left.length, right.length);
   const lines: string[] = [];
